@@ -1,0 +1,107 @@
+" enable syntax highlighting
+syntax on 
+
+"================================================
+" Plugins 
+"================================================
+call plug#begin('~/.vim/plugged')
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'fatih/vim-go'
+Plug 'vim-airline/vim-airline'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'dense-analysis/ale'
+Plug 'sheerun/vim-polyglot'
+Plug 'tpope/vim-commentary'
+Plug 'morhetz/gruvbox'
+Plug 'tpope/vim-surround'
+Plug 'Yggdroot/indentLine'
+Plug 'preservim/nerdtree'
+
+call plug#end()
+
+"================================================
+" General configuration
+"================================================
+" We want pressing 0 to take us to the start of the text in a line 
+nmap 0 ^
+
+" show number lines
+set number
+
+" TextEdit might fail if hidden is not set.
+set hidden
+
+" hightlight the matching bracket on hover
+set showmatch
+
+"set terminal colors
+set t_Co=256
+
+" set gruvbox color to dark
+let g:gruvbox_contrast_dark='medium'
+
+" use gruvbox
+colorscheme gruvbox
+
+" dark mode 
+set bg=dark
+
+filetype plugin indent on
+" show existing tab with 4 spaces width
+set tabstop=4
+" when indenting with '>', use 4 spaces width
+set shiftwidth=4
+" On pressing tab, insert 4 spaces
+set expandtab
+
+" add an indent line
+:set list lcs=tab:\|\ 
+"================================================
+" Key mappings
+"================================================
+
+" nmap <Leader>h :echo "Hello"<CR>
+" change the leader key from the default backslash to space
+let mapleader = "\<Space>"
+
+" Split edit your vimrc. Type space, v, r in sequence to trigger
+nmap <leader>vr :sp $MYVIMRC<cr>
+
+" Source (reload) your vimrc. Type space, s, o in sequence to trigger
+nmap <leader>so :source $MYVIMRC<cr>
+
+nmap <leader>p :FZF<cr>
+
+" GoTo code navigation.
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+"nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Use `[g` and `]g` to navigate diagnostics
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+" easier map for pasting something from the non-mutable buffer
+nmap <leader>v "0p
+
+" nerdtree toggle
+nmap <leader>n :NERDTreeToggle <CR>
+"================================================
+" Plugins Configuration
+"================================================
+
+" Use tab for trigger completion with characters ahead and navigate.
+" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+" other plugin before putting this into your config.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+let g:go_highlight_functions = 1
+let g:go_highlight_function_calls = 1
+let g:go_highlight_variable_declarations = 1
+let g:go_highlight_fields = 1
+
