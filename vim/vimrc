@@ -9,6 +9,7 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'fatih/vim-go'
 Plug 'vim-airline/vim-airline'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
 Plug 'dense-analysis/ale'
 Plug 'sheerun/vim-polyglot'
 Plug 'tpope/vim-commentary'
@@ -16,6 +17,7 @@ Plug 'morhetz/gruvbox'
 Plug 'tpope/vim-surround'
 Plug 'Yggdroot/indentLine'
 Plug 'preservim/nerdtree'
+Plug 'wakatime/vim-wakatime'
 
 call plug#end()
 
@@ -25,8 +27,8 @@ call plug#end()
 " We want pressing 0 to take us to the start of the text in a line 
 nmap 0 ^
 
-" show number lines
-set number
+" show number lines (hybrid)
+set number relativenumber
 
 " TextEdit might fail if hidden is not set.
 set hidden
@@ -47,12 +49,18 @@ colorscheme gruvbox
 set bg=dark
 
 filetype plugin indent on
+
 " show existing tab with 4 spaces width
 set tabstop=4
+
 " when indenting with '>', use 4 spaces width
 set shiftwidth=4
+
 " On pressing tab, insert 4 spaces
 set expandtab
+
+" set tags directory
+set tags=~/tags
 
 " add an indent line
 :set list lcs=tab:\|\ 
@@ -87,6 +95,12 @@ nmap <leader>v "0p
 
 " nerdtree toggle
 nmap <leader>n :NERDTreeToggle <CR>
+
+" GoBuild
+nmap <leader>gb :GoBuild <CR>
+
+" search for under cursor using Ag
+nnoremap <silent> <Leader>ag :Ag <C-R><C-W><CR>
 "================================================
 " Plugins Configuration
 "================================================
