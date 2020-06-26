@@ -64,6 +64,10 @@ set tags=~/tags
 
 " add an indent line
 :set list lcs=tab:\|\ 
+
+" reasonable backspace behaviour
+set backspace=indent,eol,start
+
 "================================================
 " Key mappings
 "================================================
@@ -78,7 +82,7 @@ nmap <leader>vr :sp $MYVIMRC<cr>
 " Source (reload) your vimrc. Type space, s, o in sequence to trigger
 nmap <leader>so :source $MYVIMRC<cr>
 
-nmap <leader>p :FZF<cr>
+nmap <leader>p :Files<cr>
 
 " GoTo code navigation.
 nmap <silent> gd <Plug>(coc-definition)
