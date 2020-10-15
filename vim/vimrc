@@ -1,6 +1,31 @@
 " enable syntax highlighting
 syntax on 
 
+" if (has("termguicolors"))
+"     set termguicolors
+" endif
+
+" use the system clipboard for most things
+set clipboard+=unnamedplus
+
+" diable annoying swap files
+set noswapfile
+set nohlsearch
+set nobackup
+
+" only use case sensitive search if no capital letters in search
+set ignorecase
+set smartcase
+
+" set autoread so I don't have to reload when I change a file on disk
+" check one time after 4s of inactivity in normal mode
+set autoread
+au CursorHold * checktime                                                                                                                                                                       
+
+
+" Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
+" delays and poor user experience.
+set updatetime=50
 "================================================
 " Plugins 
 "================================================
@@ -15,9 +40,23 @@ Plug 'sheerun/vim-polyglot'
 Plug 'tpope/vim-commentary'
 Plug 'morhetz/gruvbox'
 Plug 'tpope/vim-surround'
-Plug 'Yggdroot/indentLine'
+" Plug 'Yggdroot/indentLine'
 Plug 'preservim/nerdtree'
 Plug 'wakatime/vim-wakatime'
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
+" git wrapper
+Plug 'tpope/vim-fugitive'
+" sensible vim settings
+Plug 'tpope/vim-sensible'
+" some useful unix commands from vim
+Plug 'tpope/vim-eunuch'
+" vim wiki
+Plug 'vimwiki/vimwiki'
+" plugin to allow me to split golang structs to
+" multiple lines using gS and gJ in normal mode
+Plug 'AndrewRadev/splitjoin.vim'
+" allow vim-go to use snippets
+Plug 'SirVer/ultisnips'
 
 call plug#end()
 
@@ -63,13 +102,14 @@ set expandtab
 set tags=~/tags
 
 " add an indent line
-:set list lcs=tab:\|\ 
+" :set list lcs=tab:\▏\ 
+" let g:indentLine_char = '▏'
 
 " reasonable backspace behaviour
 set backspace=indent,eol,start
 
 "================================================
-" Key mappings
+" Key mappings, shortcuts
 "================================================
 
 " nmap <Leader>h :echo "Hello"<CR>
@@ -100,26 +140,61 @@ nmap <leader>v "0p
 " nerdtree toggle
 nmap <leader>n :NERDTreeToggle <CR>
 
+" reveal current file in NERDTree
+nmap <leader>m :NERDTreeFind <CR>
 " GoBuild
 nmap <leader>gb :GoBuild <CR>
 
+" show function all function and struct names in file
+nmap <leader>gd :GoDecls <CR>
+
+" show function all function and struct names in file
+nmap <leader>gD :GoDeclsDir <CR>
+
+" GoRun
+nmap <leader>gr :w <CR> :GoRun <CR>
 " search for under cursor using Ag
 nnoremap <silent> <Leader>ag :Ag <C-R><C-W><CR>
+
+" toggle markdown preview
+nmap <leader>mt <Plug>MarkdownPreviewToggle
+" Sweet Sweet FuGITive
+nmap <leader>gj :diffget //3<CR>
+nmap <leader>gf :diffget //2<CR>
+nmap <leader>gs :G<CR>
+
 "================================================
 " Plugins Configuration
 "================================================
 
+" use <c-space>for trigger completion
+inoremap <silent><expr> <c-space> coc#refresh()
+inoremap <silent><expr> <NUL> coc#refresh()
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
 " Use tab for trigger completion with characters ahead and navigate.
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
 " other plugin before putting this into your config.
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+" inoremap <silent><expr> <TAB>
+"       \ pumvisible() ? "\<C-n>" :
+"       \ <SID>check_back_space() ? "\<TAB>" :
+"       \ coc#refresh()
+" inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
+" let fzf open as a window in the center
+let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.8 } }
+let $FZF_DEFAULT_OPTS='--reverse'
+
+let g:go_fmt_autosave = 1
 let g:go_highlight_functions = 1
 let g:go_highlight_function_calls = 1
 let g:go_highlight_variable_declarations = 1
 let g:go_highlight_fields = 1
+" let g:go_auto_type_info = 1
 
+" gimme goinfo stuff quick
+" set updatetime=100
+
+let g:go_def_mode='gopls'
+let g:go_info_mode='gopls'
+let g:indentLine_fileTypeExclude = ['md']
