@@ -1,10 +1,6 @@
 " enable syntax highlighting
 syntax on 
 
-" if (has("termguicolors"))
-"     set termguicolors
-" endif
-
 " use the system clipboard for most things
 set clipboard+=unnamedplus
 
@@ -21,7 +17,8 @@ set smartcase
 " check one time after 4s of inactivity in normal mode
 set autoread
 au CursorHold * checktime                                                                                                                                                                       
-
+" make Y consistent with C and D.
+nnoremap Y y$
 
 " Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
 " delays and poor user experience.
@@ -35,15 +32,13 @@ Plug 'fatih/vim-go'
 Plug 'vim-airline/vim-airline'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-Plug 'dense-analysis/ale'
-Plug 'sheerun/vim-polyglot'
+" Plug 'dense-analysis/ale'
+" Plug 'sheerun/vim-polyglot'
 Plug 'tpope/vim-commentary'
 Plug 'morhetz/gruvbox'
 Plug 'tpope/vim-surround'
-" Plug 'Yggdroot/indentLine'
 Plug 'preservim/nerdtree'
 Plug 'wakatime/vim-wakatime'
-Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
 " git wrapper
 Plug 'tpope/vim-fugitive'
 " sensible vim settings
@@ -52,12 +47,18 @@ Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-eunuch'
 " vim wiki
 Plug 'vimwiki/vimwiki'
-" plugin to allow me to split golang structs to
-" multiple lines using gS and gJ in normal mode
-Plug 'AndrewRadev/splitjoin.vim'
 " allow vim-go to use snippets
 Plug 'SirVer/ultisnips'
-
+" map [q and ]q to :cprev and :cnext
+Plug 'tpope/vim-unimpaired'
+" better s
+Plug 'justinmk/vim-sneak'
+" experimental jira integration, remember to remove if it's shit
+Plug 'paulkass/jira-vim', { 'do': 'pip install -r requirements.txt' }
+" I need this for jira-vim
+Plug 'godlygeek/tabular'
+" a file manager
+Plug 'kevinhwang91/rnvimr'
 call plug#end()
 
 "================================================
@@ -95,6 +96,7 @@ set tabstop=4
 " when indenting with '>', use 4 spaces width
 set shiftwidth=4
 
+" this is disabled for now as TM prefers tabs
 " On pressing tab, insert 4 spaces
 set expandtab
 
@@ -108,6 +110,21 @@ set tags=~/tags
 " reasonable backspace behaviour
 set backspace=indent,eol,start
 
+" Make Ranger replace Netrw and be the file explorer
+let g:rnvimr_ex_enable = 1
+
+" Make Ranger to be hidden after picking a file
+let g:rnvimr_enable_picker = 1
+
+" Customize the initial layout
+" let g:rnvimr_layout = {
+"             \ 'relative': 'editor',
+"             \ 'width': float2nr(round(1.0 * &columns)),
+"             \ 'height': float2nr(round(0.42 * &lines)),
+"             \ 'col': float2nr(round(0.0 * &columns)),
+"             \ 'row': float2nr(round(0.54 * &lines)),
+"             \ 'style': 'minimal'
+"             \ }
 "================================================
 " Key mappings, shortcuts
 "================================================
@@ -137,8 +154,11 @@ nmap <silent> ]g <Plug>(coc-diagnostic-next)
 " easier map for pasting something from the non-mutable buffer
 nmap <leader>v "0p
 
-" nerdtree toggle
-nmap <leader>n :NERDTreeToggle <CR>
+" Maps Ranger 
+nmap <leader>n :RnvimrToggle<CR>
+
+" " nerdtree toggle
+" nmap <leader>n :NERDTreeToggle <CR>
 
 " reveal current file in NERDTree
 nmap <leader>m :NERDTreeFind <CR>
@@ -198,3 +218,7 @@ let g:go_highlight_fields = 1
 let g:go_def_mode='gopls'
 let g:go_info_mode='gopls'
 let g:indentLine_fileTypeExclude = ['md']
+
+" make vim-sneak respect ignorecase and smartcase settings
+let g:sneak#use_ic_scs = 1
+set conceallevel=0
